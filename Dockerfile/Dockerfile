@@ -1,13 +1,13 @@
 FROM jenkins/jenkins:lts
-#FROM ubuntu:20.04
-# if we want to install via apt
+
+# Switch to root user
 USER root
-RUN apt-get update && apt-get install -y make && apt-get install -y g++ --fix-missing
-# drop back to the regular jenkins user - good practice
+
+# Update and install required packages in one RUN command
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    make g++ && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Switch back to the Jenkins user
 USER jenkins
-
-
-
-
-
-
